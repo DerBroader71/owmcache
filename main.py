@@ -3,8 +3,10 @@ from datetime import datetime
 import sys
 import signal
 import threading
+import json
 import microdot
 import requests
+from microdot_cors import CORS
 
 # EDIT NEXT THREE LINES
 LAT = ''
@@ -26,6 +28,9 @@ def get_weather():
         owm_cache = response.content
         time.sleep(900)
 
+def rounder(t):
+    return t.replace(second=0, microsecond=0, minute=0)
+
 # define the exit handler
 def exit_handler(signal, frame):
     print()
@@ -43,9 +48,37 @@ time.sleep(5)
 
 # Setup and run Microdot
 app = microdot.Microdot()
+cors = CORS(app, allowed_origins=['*'])
 
 @app.route('/')
 def index(request):
-    return owm_cache
+    return microdot.Response(body=owm_cache, headers={'Access-Control-Allow-Origin': '*'})
 
-app.run(port=8080)
+@app.route('/short')
+def short(request):
+    data = json.loads(owm_cache)
+    del data['minutely']
+    del data['alerts']
+    del data['daily']
+    return microdot.Response(body=data, headers={'Access-Control-Allow-Origin': '*'})
+
+@app.route('/current')
+def current(request):
+    data = json.loads(owm_cache)
+    return microdot.Response(body=data['current'], headers={'Access-Control-Allow-Origin': '*'})
+
+@app.route('/hour/<hourcount>')
+def hour(request, hourcount):
+    if 1 <= int(hourcount) <= 47:
+        pass
+    else:
+        found = '{"error":"invalid request"}'
+    data = json.loads(owm_cache)
+    current_ts = int(rounder(now).timestamp())
+    future = current_ts + (int(hourcount) * 3600)
+    for i in data['hourly']:
+        if i['dt'] == future:
+            found = i
+    return microdot.Response(body=found, headers={'Access-Control-Allow-Origin': '*'})
+
+app.run(port=8888)
