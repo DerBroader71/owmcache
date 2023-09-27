@@ -8,14 +8,14 @@ import microdot
 import requests
 from microdot_cors import CORS
 
-# EDIT NEXT THREE LINES
+# EDIT NEXT FOUR LINES
 LAT = ''
 LON = ''
 OPENWEATHERMAP_API_KEY = ''
+UNITS = ''
 
 # Setup OpenWeatherMap
-BASE_URL = "https://api.openweathermap.org/data/2.5/weather?"
-ONE_HIT_URL = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + LAT + '&lon=' + LON + '&units=metric&appid=' + OPENWEATHERMAP_API_KEY
+ONE_HIT_URL = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + LAT + '&lon=' + LON + '&units=' + UNITS + '&appid=' + OPENWEATHERMAP_API_KEY
 owm_cache = ''
 
 def get_weather():
