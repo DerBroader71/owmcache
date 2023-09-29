@@ -58,7 +58,8 @@ def index(request):
 def short(request):
     data = json.loads(owm_cache)
     del data['minutely']
-    del data['alerts']
+    if 'alerts' in data:
+        del data['alerts']
     del data['daily']
     return microdot.Response(body=data, headers={'Access-Control-Allow-Origin': '*'})
 
