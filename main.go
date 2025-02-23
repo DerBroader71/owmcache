@@ -44,7 +44,7 @@ const LON = ""
 const OPENWEATHERMAP_API_KEY = ""
 
 // Set up constants and global variables
-const ONE_HIT_URL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + LAT + "&lon=" + LON + "&units=metric&appid=" + OPENWEATHERMAP_API_KEY
+const ONE_HIT_URL = 'https://api.openweathermap.org/data/3.0/onecall?lat=' + LAT + '&lon=' + LON + '&units=metric&appid=' + OPENWEATHERMAP_API_KEY
 var owmCacheData string
 
 // Function for owmcache (openweathermap cache)
