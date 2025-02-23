@@ -15,7 +15,7 @@ OPENWEATHERMAP_API_KEY = ''
 UNITS = ''
 
 # Setup OpenWeatherMap
-ONE_HIT_URL = 'https://api.openweathermap.org/data/3.0/onecall?lat=' + LAT + '&lon=' + LON + '&units=metric&appid=' + API_KEY
+ONE_HIT_URL = 'https://api.openweathermap.org/data/3.0/onecall?lat=' + LAT + '&lon=' + LON + '&units=metric&appid=' + OPENWEATHERMAP_API_KEY
 owm_cache = ''
 
 def get_weather():
